@@ -41,6 +41,9 @@
     <Reference Include="MyLib">
       <HintPath>libs\MyLib.dll</HintPath>
     </Reference>
+    <Reference Include="MyLib.File">
+      <HintPath>libs\MyLib.File.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -61,7 +64,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Data\WordingModel.cs" />
+    <Compile Include="Data\WordingRepository.cs" />
     <Compile Include="Util\Constant.cs" />
+    <Compile Include="Util\Wording.cs" />
     <Page Include="Component\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

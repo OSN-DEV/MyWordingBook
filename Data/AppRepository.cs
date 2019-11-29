@@ -18,6 +18,8 @@ namespace MyWordingBook.Data {
         }
         public Location Pos { set; get; } = new Location();
         public Rect Size { set; get; } = new Rect();
+        public string LastDataFile { set; get; } = "";
+
         private static string _settingFile;
         #endregion
 

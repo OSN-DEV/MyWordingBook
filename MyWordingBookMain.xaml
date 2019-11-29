@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyWordingBook"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="400" KeyDown="Window_KeyDown">
+        Title="MainWindow" Height="400" Width="400" KeyDown="Window_KeyDown" MinWidth="200" MinHeight="200" Loaded="Window_Loaded">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -14,7 +14,7 @@
         </ResourceDictionary>
     </Window.Resources>
     
-    <ListView Name="cItemList" Grid.RowSpan="2" ItemsSource="{Binding}" SelectionMode="Single">
+    <ListView Name="cItemList" ItemsSource="{Binding}" SelectionMode="Single" Margin="0">
         <ListView.ItemContainerStyle >
             <Style TargetType="ListViewItem" >
                 <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -46,7 +46,7 @@
         </ListView.Resources>
         <ListView.View>
             <GridView>
-                <GridViewColumn HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
+                <GridViewColumn HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}" x:Name="cWord">
                     <GridViewColumnHeader Content="Word" FontSize="{StaticResource DefaultFonSize}" Padding="5" Background="#D81B60"/>
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
@@ -56,7 +56,7 @@
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>
-                <GridViewColumn HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
+                <GridViewColumn HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}" x:Name="cNote">
                     <GridViewColumnHeader Content="Note" FontSize="{StaticResource DefaultFonSize}"  Padding="5"  Background="#D81B60"/>
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
