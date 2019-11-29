@@ -5,8 +5,68 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyWordingBook"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="400" Width="400" KeyDown="Window_KeyDown">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Component/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <ListView Name="cItemList" Grid.RowSpan="2" ItemsSource="{Binding}" SelectionMode="Single">
+        <ListView.ItemContainerStyle >
+            <Style TargetType="ListViewItem" >
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ContentControl}">
+                            <Border BorderBrush="Transparent" BorderThickness="1" Background="{TemplateBinding Background}">
+                                <GridViewRowPresenter />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True" >
+                        <Setter Property="Background" Value="#FFE6E0E0" />
+                        <Setter Property="BorderBrush" Value="#FFE6E0E0" />
+                        <Setter Property="Foreground" Value="{StaticResource DefaultTextForeground}" />
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="True" >
+                        <Setter Property="Cursor" Value="Hand" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ListView.ItemContainerStyle>
+        <ListView.Resources>
+            <Style x:Key="{x:Type GridViewColumnHeader}" TargetType="{x:Type GridViewColumnHeader}">
+                <Setter Property="Background" Value="#D81B60"/>
+            </Style>
+        </ListView.Resources>
+        <ListView.View>
+            <GridView>
+                <GridViewColumn HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
+                    <GridViewColumnHeader Content="Word" FontSize="{StaticResource DefaultFonSize}" Padding="5" Background="#D81B60"/>
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" Padding="5" FontSize="{StaticResource DefaultFonSize}" />
+                            </Grid>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+                <GridViewColumn HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
+                    <GridViewColumnHeader Content="Note" FontSize="{StaticResource DefaultFonSize}"  Padding="5"  Background="#D81B60"/>
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" Padding="5" FontSize="{StaticResource DefaultFonSize}" />
+                            </Grid>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+            </GridView>
+        </ListView.View>
+    </ListView>
 </Window>
