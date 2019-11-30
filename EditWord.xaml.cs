@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MyWordingBook.Data;
+using System.Windows.Input;
 
 namespace MyWordingBook {
     /// <summary>
@@ -35,6 +36,15 @@ namespace MyWordingBook {
         #endregion
 
         #region Event
+        /// <summary>
+        /// close window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Closed(object sender, EventArgs e) {
+            InputMethod.Current.ImeState = InputMethodState.Off;
+        }
+
         /// <summary>
         /// ok button Click
         /// </summary>
@@ -71,5 +81,6 @@ namespace MyWordingBook {
 
         }
         #endregion
+
     }
 }

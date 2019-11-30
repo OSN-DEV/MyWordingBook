@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MyWordingBook"
         xmlns:u="clr-namespace:MyWordingBook.Component"
         mc:Ignorable="d"
-        Title="Search" Height="140" Width="250" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+        Title="Search" Height="140" Width="250" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" Closed="Window_Closed">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -26,7 +26,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <u:CustomTextBox Grid.ColumnSpan="2" x:Name="cSearchWord" Grid.Row="0" Grid.Column="0" ImeMode="Off" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="3,16" TextChanged="Word_TextChanged"/>
+        <u:CustomTextBox Grid.ColumnSpan="2" x:Name="cSearchWord" Grid.Row="0" Grid.Column="0" ImeMode="Off" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="3,16" TextChanged="SearchWord_TextChanged"/>
 
 
         <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">

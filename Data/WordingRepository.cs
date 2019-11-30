@@ -16,6 +16,7 @@ namespace MyWordingBook.Data {
         private string _fileName;
 
         private const char Separator = '\t';
+        internal ObservableCollection<WordingModel> _searchDataContext = new ObservableCollection<WordingModel>();
         #endregion
 
         #region Public Property
@@ -41,6 +42,8 @@ namespace MyWordingBook.Data {
         /// data list
         /// </summary>
         internal ObservableCollection<WordingModel> DataContext { private set; get; } = new ObservableCollection<WordingModel>();
+
+        public bool IsSearchMode { private set; get; } = false;
         #endregion
 
         #region Public Method
@@ -69,6 +72,13 @@ namespace MyWordingBook.Data {
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// sort by word
+        /// </summary>
+        internal void Sort() {
+            this.Copy(new ObservableCollection<WordingModel>(this.DataContext.OrderBy(n => n.Word)));
         }
 
         /// <summary>
@@ -101,6 +111,9 @@ namespace MyWordingBook.Data {
             using (var file = new FileOperator(this._filePath)) {
                 try {
                     this.DataContext.Remove(model);
+                    if (this.IsSearchMode) {
+                        this._searchDataContext.Remove(model);
+                    }
                     result = this.Save();
                 } catch {
                 }
@@ -114,6 +127,44 @@ namespace MyWordingBook.Data {
         /// <param name="model"></param>
         internal void Add(WordingModel model) {
             this.DataContext.Add(model);
+        }
+
+        /// <summary>
+        /// start search mode
+        /// </summary>
+        /// <param name="searchWord">search keyword</param>
+        /// <returns>search result</returns>
+        internal ObservableCollection<WordingModel> StartSearchMode(string searchWord) {
+            this.IsSearchMode = true;
+            this._searchDataContext.Clear();
+
+            foreach (var model in this.DataContext) {
+                if (-1 < model.Word.IndexOf(searchWord) || -1 < model.Note.IndexOf(searchWord)) {
+                    this._searchDataContext.Add(model);
+                }
+            }
+            return this._searchDataContext;
+        }
+
+        /// <summary>
+        /// stop search mode
+        /// </summary>
+        internal void EndSearchMode() {
+            this.IsSearchMode = false;
+            this._searchDataContext.Clear();
+        }
+        #endregion
+
+        #region Private Method
+        /// <summary>
+        /// deep copy
+        /// </summary>
+        /// <param name="srcCollection">source model</param>
+        private void Copy(ObservableCollection<WordingModel> srcCollection) {
+            this.DataContext.Clear();
+            foreach (var src in srcCollection) {
+                this.DataContext.Add(((WordingModel)src).Clone());
+            }
         }
         #endregion
     }

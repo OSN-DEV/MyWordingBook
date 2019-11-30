@@ -27,13 +27,22 @@ namespace MyWordingBook {
             InitializeComponent();
         }
 
-        public SearchWindow(Window owner) {
+        public SearchWindow(Window owner, string searchWord) {
             InitializeComponent();
-            this.Initialize(owner);
+            this.Initialize(owner, searchWord);
         }
         #endregion
 
         #region Event
+        /// <summary>
+        /// close window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Closed(object sender, EventArgs e) {
+            InputMethod.Current.ImeState = InputMethodState.Off;
+        }
+
         /// <summary>
         /// ok button Click
         /// </summary>
@@ -58,11 +67,13 @@ namespace MyWordingBook {
         /// <summary>
         /// initialize window
         /// </summary>
-        /// <param name="model"></param>
-        private void Initialize(Window owner) {
+        /// <param name="owner">owner window</param>
+        /// <param name="searchWord">search word</param>
+        private void Initialize(Window owner, string searchWord) {
             this.Owner = owner;
+            this.cSearchWord.Text = searchWord;
             this.cSearchWord.Focus();
-
+            this.cOK.IsEnabled = (0 < this.cSearchWord.Text.Length);
         }
         #endregion
     }

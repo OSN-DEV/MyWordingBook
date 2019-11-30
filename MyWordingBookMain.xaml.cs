@@ -26,6 +26,7 @@ namespace MyWordingBook {
         #region Declaration
         private AppRepository _settings;
         private WordingRepository _wording;
+        private string _lastSearchWord = "";
         #endregion
 
 
@@ -97,6 +98,16 @@ namespace MyWordingBook {
                     }
                     break;
 
+                // Switch to search mode
+                case Key.F:
+                    e.Handled = true;
+                    this.ChangeModeToSerach();
+                    break;
+
+                case Key.Escape:
+                    this.ChangeModeToNormal();
+                    break;
+
                 // Delete selected word
                 case Key.D:
                     if (model != null) {
@@ -120,7 +131,7 @@ namespace MyWordingBook {
                             if (!this._wording.Save()) {
                                 this.ShowErrorMsg(ErrorMessages.FailToSave);
                             }
-                            return;
+                            this.ChangeModeToNormal();
                         }
                     }
                     break;
@@ -131,6 +142,7 @@ namespace MyWordingBook {
                     {
                         var result = this.ShowFileDialog(true, new FileOperator(this._settings.LastDataFile).Name);
                         if (result.Select) {
+                            this.ChangeModeToNormal();
                             this._settings.LastDataFile = result.FileName;
                             this._settings.Save();
                             this.LoadDataFile(result.FileName);
@@ -145,6 +157,7 @@ namespace MyWordingBook {
                     {
                         var result = this.ShowFileDialog(false, Constant.NewFile);
                         if (result.Select) {
+                            this.ChangeModeToNormal();
                             this._settings.LastDataFile = result.FileName;
                             this._settings.Save();
                             this.SetTitile();
@@ -253,11 +266,11 @@ namespace MyWordingBook {
         /// <summary>
         /// set window title
         /// </summary>
-        private void SetTitile() {
+        private void SetTitile(string mode = "") {
             // update title
             var fullname = typeof(App).Assembly.Location;
             var info = System.Diagnostics.FileVersionInfo.GetVersionInfo(fullname);
-            this.Title = $"MyWordingBook({info.FileVersion}) -  {this._wording.FileName}";
+            this.Title = $"{mode}MyWordingBook({info.FileVersion}) -  {this._wording.FileName}";
         }
 
         /// <summary>
@@ -283,21 +296,36 @@ namespace MyWordingBook {
                 model.Word = dialog.Model.Word;
                 model.Note = dialog.Model.Note;
             }
+            this._wording.Sort();
             if (!this._wording.Save()) {
                 this.ShowErrorMsg(ErrorMessages.FailToSave);
             }
         }
 
         /// <summary>
-        /// Get selected item model
+        /// change to search mode
         /// </summary>
-        /// <returns>selected item</returns>
-        private WordingModel GetSelectedModel() {
-            if (!(this.cWordingList.GetItemAt(Mouse.GetPosition(this.cWordingList))?.DataContext is WordingModel model)) {
-                return null;
-            } else {
-                return model;
+        private void ChangeModeToSerach() {
+            var dialog = new SearchWindow(this, this._lastSearchWord);
+            if (true != dialog.ShowDialog()) {
+                return;
             }
+            this._lastSearchWord = dialog.SearchWord;
+            this.SetTitile(Titles.SearchMode);
+            this.cWordingList.DataContext = this._wording.StartSearchMode(dialog.SearchWord);
+        }
+
+
+        /// <summary>
+        /// change to search mode
+        /// </summary>
+        private void ChangeModeToNormal() {
+            if (this._wording.IsSearchMode) {
+                this.SetTitile();
+                this._wording.EndSearchMode();
+                this.cWordingList.DataContext = this._wording.DataContext;
+            }
+
         }
         #endregion
 

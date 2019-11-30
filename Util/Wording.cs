@@ -10,6 +10,8 @@ namespace MyWordingBook.Util {
         internal static readonly string OpenFileDialog = "open wording data file";
 
         internal static readonly string SaveFileDialog = "save wording data file";
+
+        internal static readonly string SearchMode = "【Search】";
     }
 
     internal class ErrorMessages {
