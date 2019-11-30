@@ -50,6 +50,7 @@ namespace MyWordingBook.Data {
         /// <returns>true:success, false:otherwise</returns>
         internal bool Load() {
             bool result = false;
+            this.DataContext.Clear();
 
             try {
                 using (var file = new FileOperator(this._filePath)) {

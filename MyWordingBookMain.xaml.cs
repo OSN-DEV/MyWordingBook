@@ -109,17 +109,31 @@ namespace MyWordingBook {
 
                 // Save as
                 case Key.S:
-                    e.Handled = true;
-                    var result = this.ShowFileDialog(false, new FileOperator(this._settings.LastDataFile).Name);
-                    if (result.Select) {
-                        this._settings.LastDataFile = result.FileName;
-                        this._settings.Save();
-                        this._wording.DataFile = result.FileName;
-                        this.SetTitile();
-                        if (!this._wording.Save()) {
-                            this.ShowErrorMsg(ErrorMessages.FailToSave);
+                    e.Handled = true; {
+                        var result = this.ShowFileDialog(false, new FileOperator(this._settings.LastDataFile).Name);
+                        if (result.Select) {
+                            this._settings.LastDataFile = result.FileName;
+                            this._settings.Save();
+                            this._wording.DataFile = result.FileName;
+                            this.SetTitile();
+                            if (!this._wording.Save()) {
+                                this.ShowErrorMsg(ErrorMessages.FailToSave);
+                            }
+                            return;
                         }
-                        return;
+                    }
+                    break;
+
+                // Open
+                case Key.O:
+                    e.Handled = true; {
+                        var result = this.ShowFileDialog(true, new FileOperator(this._settings.LastDataFile).Name);
+                        if (result.Select) {
+                            this._settings.LastDataFile = result.FileName;
+                            this._settings.Save();
+                            this.LoadDataFile(result.FileName);
+                            return;
+                        }
                     }
                     break;
             }
