@@ -29,6 +29,9 @@ namespace MyWordingBook.Data {
                     PropertyChanged.Raise(() => _note);
             }
         }
+
+        // use only search mode
+        public int Index { set; get; }
         #endregion
 
         #region Public Method
@@ -40,6 +43,7 @@ namespace MyWordingBook.Data {
             var model = new WordingModel();
             model.Word = this.Word;
             model.Note = this.Note;
+            model.Index = this.Index;
             return model;
         }
         #endregion

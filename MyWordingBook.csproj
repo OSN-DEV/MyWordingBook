@@ -71,8 +71,8 @@
     <Compile Include="EditWord.xaml.cs">
       <DependentUpon>EditWord.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SearchWord.xaml.cs">
-      <DependentUpon>SearchWord.xaml</DependentUpon>
+    <Compile Include="SearchWindow.xaml.cs">
+      <DependentUpon>SearchWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util\Constant.cs" />
     <Compile Include="Util\Wording.cs" />
@@ -97,7 +97,7 @@
       <DependentUpon>MyWordingBookMain.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="SearchWord.xaml">
+    <Page Include="SearchWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
