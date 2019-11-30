@@ -49,19 +49,19 @@ namespace MyWordingBook {
             var dataFile = new FileOperator(this._settings.LastDataFile);
             if (!dataFile.Exists()) {
                 var result = this.ShowFileDialog(false, dataFile.Name);
-                if (!result.select) {
+                if (!result.Select) {
                     this.Close();
                     return;
                 }
-                this._settings.LastDataFile = result.fileName;
+                this._settings.LastDataFile = result.FileName;
                 this._settings.Save();
-                dataFile.FilePath = result.fileName;
+                dataFile.FilePath = result.FileName;
                 dataFile.OpenForWrite();
                 dataFile.Close();
             }
 
             // show wording list
-            this.OpenDataFile(dataFile.FilePath);
+            this.LoadDataFile(dataFile.FilePath);
         }
 
 
@@ -104,6 +104,22 @@ namespace MyWordingBook {
                         if (!this._wording.Delete(model)) {
                             this.ShowErrorMsg(ErrorMessages.FailToDelete);
                         }
+                    }
+                    break;
+
+                // Save as
+                case Key.S:
+                    e.Handled = true;
+                    var result = this.ShowFileDialog(false, new FileOperator(this._settings.LastDataFile).Name);
+                    if (result.Select) {
+                        this._settings.LastDataFile = result.FileName;
+                        this._settings.Save();
+                        this._wording.DataFile = result.FileName;
+                        this.SetTitile();
+                        if (!this._wording.Save()) {
+                            this.ShowErrorMsg(ErrorMessages.FailToSave);
+                        }
+                        return;
                     }
                     break;
             }
@@ -159,7 +175,7 @@ namespace MyWordingBook {
         /// <param name="isOpen">true:open dialog, false:save dialog</param>
         /// <param name="fileName">file name</param>
         /// <returns>dialog instance</returns>
-        private (bool select, string fileName) ShowFileDialog(bool isOpen, string fileName) {
+        private (bool Select, string FileName) ShowFileDialog(bool isOpen, string fileName) {
             var dialog = new FileDialog();
             dialog.Owner = this;
             dialog.Title = isOpen ? Titles.OpenFileDialog : Titles.SaveFileDialog;
@@ -174,21 +190,26 @@ namespace MyWordingBook {
         }
 
         /// <summary>
-        /// open data file
+        /// load data file
         /// </summary>
         /// <param name="dataFile"></param>
-        private void OpenDataFile(string dataFile) {
+        private void LoadDataFile(string dataFile) {
             this._wording.DataFile = dataFile;
             if (!this._wording.Load()) {
                 this.ShowErrorMsg(ErrorMessages.FailToLoad);
                 return;
             }
+            this.SetTitile();
+        }
 
+        /// <summary>
+        /// set window title
+        /// </summary>
+        private void SetTitile() {
             // update title
             var fullname = typeof(App).Assembly.Location;
             var info = System.Diagnostics.FileVersionInfo.GetVersionInfo(fullname);
             this.Title = $"MyWordingBook({info.FileVersion}) -  {this._wording.FileName}";
-
         }
 
         /// <summary>
