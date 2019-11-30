@@ -14,10 +14,11 @@
         </ResourceDictionary>
     </Window.Resources>
     
-    <ListView Name="cItemList" ItemsSource="{Binding}" SelectionMode="Single" Margin="0">
+    <ListView Name="cWordingList" ItemsSource="{Binding}" SelectionMode="Single" Margin="0">
         <ListView.ItemContainerStyle >
             <Style TargetType="ListViewItem" >
                 <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ContentControl}">
@@ -51,7 +52,7 @@
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>
-                                <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" Padding="5" FontSize="{StaticResource DefaultFonSize}" />
+                                <TextBlock Text="{Binding Word}" VerticalAlignment="Center" Padding="5" FontSize="{StaticResource DefaultFonSize}" />
                             </Grid>
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
@@ -61,7 +62,7 @@
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>
-                                <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" Padding="5" FontSize="{StaticResource DefaultFonSize}" />
+                                <TextBlock Text="{Binding Note}" VerticalAlignment="Center" Padding="5" FontSize="{StaticResource DefaultFonSize}" />
                             </Grid>
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>

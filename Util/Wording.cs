@@ -11,4 +11,8 @@ namespace MyWordingBook.Util {
 
         internal static readonly string SaveFileDialog = "save wording data file";
     }
+
+    internal class ErrorMessages {
+        internal static readonly string FailToLoad = "fail to load data file";
+    }
 }

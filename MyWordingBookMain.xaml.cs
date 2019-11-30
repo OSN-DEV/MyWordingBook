@@ -44,15 +44,23 @@ namespace MyWordingBook {
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e) {
 
-            // create save data if not found.
+            // create data file if file is not found or invalid.
             var dataFile = new FileOperator(this._settings.LastDataFile);
             if (!dataFile.Exists()) {
-                var result = this.ShowFileDialog(false, dataFile.FilePath ?? "hoge");
+                var result = this.ShowFileDialog(false, dataFile.Name);
                 if (!result.select) {
                     this.Close();
                     return;
                 }
+                this._settings.LastDataFile = result.fileName;
+                this._settings.Save();
+                dataFile.FilePath = result.fileName;
+                dataFile.OpenForWrite();
+                dataFile.Close();
             }
+
+            // show wording list
+            this.OpenDataFile(dataFile.FilePath);
         }
 
 
@@ -80,7 +88,9 @@ namespace MyWordingBook {
         /// initialize window
         /// </summary>
         private void Initialize() {
+            // initialize variables
             this._settings = AppRepository.Init(Constant.SettingFile);
+            this._wording = new WordingRepository();
 
             // restore window position
             double pos = Common.GetWindowPosition(this._settings.Pos.X, this._settings.Size.W, SystemParameters.VirtualScreenWidth);
@@ -97,8 +107,11 @@ namespace MyWordingBook {
             this.Height = Common.GetWindowSize(this.Height, this._settings.Size.H, SystemParameters.WorkArea.Height);
 
             // adjust columen width
-            this.cWord.Width = (this.Width - 40) / 2;
+            this.cWord.Width = (this.Width - 50) / 2;
             this.cNote.Width = this.cWord.Width;
+
+            //
+            this.cWordingList.DataContext = this._wording.DataContext;
         }
 
 
@@ -114,7 +127,7 @@ namespace MyWordingBook {
         }
 
         /// <summary>
-        /// open file dialog
+        /// show file dialog
         /// </summary>
         /// <param name="isOpen">true:open dialog, false:save dialog</param>
         /// <param name="fileName">file name</param>
@@ -131,6 +144,33 @@ namespace MyWordingBook {
             dialog.FilterName = Constant.FilterName;
             dialog.FilterExt = Constant.FilterExt;
             return isOpen ? dialog.ShowOpen() : dialog.ShowSave();
+        }
+
+        /// <summary>
+        /// open data file
+        /// </summary>
+        /// <param name="dataFile"></param>
+        private void OpenDataFile(string dataFile) {
+            this._wording.DataFile = dataFile;
+            if (!this._wording.Load()) {
+                this.ShowErrorMsg(ErrorMessages.FailToLoad);
+                return;
+            }
+
+            // update title
+            var fullname = typeof(App).Assembly.Location;
+            var info = System.Diagnostics.FileVersionInfo.GetVersionInfo(fullname);
+            this.Title = $"MyWordingBook({info.FileVersion}) -  {this._wording.FileName}";
+
+        }
+
+        /// <summary>
+        /// show error message
+        /// </summary>
+        /// <param name="message">message</param>
+
+        private void ShowErrorMsg(string message) {
+            MessageBox.Show(this, message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         #endregion
 
