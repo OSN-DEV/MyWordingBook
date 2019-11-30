@@ -71,6 +71,8 @@ namespace MyWordingBook {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Window_KeyDown(object sender, KeyEventArgs e) {
+            var model = this.cWordingList.SelectedItem as WordingModel;
+
             switch (e.Key) {
                 // Ctrl + W : Close App
                 case Key.W:
@@ -80,15 +82,28 @@ namespace MyWordingBook {
                         this.Close();
                     }
                     break;
+
                 // Show Edit dialog with new mode.
                 case Key.A:
                     e.Handled = true;
                     this.ShowEditDialog(null);
                     break;
+
+                // SHow Edit dialog with edit mode.
                 case Key.E:
-                    if (this.cWordingList.SelectedItem != null) {
+                    if (model != null) {
                         e.Handled = true;
-                        this.ShowEditDialog(this.cWordingList.SelectedItem as WordingModel);
+                        this.ShowEditDialog(model);
+                    }
+                    break;
+
+                // Delete selected word
+                case Key.D:
+                    if (model != null) {
+                        e.Handled = true;
+                        if (!this._wording.Delete(model)) {
+                            this.ShowErrorMsg(ErrorMessages.FailToDelete);
+                        }
                     }
                     break;
             }
@@ -199,7 +214,9 @@ namespace MyWordingBook {
                 model.Word = dialog.Model.Word;
                 model.Note = dialog.Model.Note;
             }
-            this._wording.Save();
+            if (!this._wording.Save()) {
+                this.ShowErrorMsg(ErrorMessages.FailToSave);
+            }
         }
 
         /// <summary>

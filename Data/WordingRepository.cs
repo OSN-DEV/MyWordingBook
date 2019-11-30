@@ -76,7 +76,6 @@ namespace MyWordingBook.Data {
         /// <returns>true:success, false:otherwise</returns>
         internal bool Save() {
             bool result = false;
-
             using (var file = new FileOperator(this._filePath)) {
                 try {
                     file.Delete();
@@ -85,6 +84,23 @@ namespace MyWordingBook.Data {
                         file.WriteLine(model.Word + Separator + model.Note);
                     }
                     result = true;
+                } catch {
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// delete item and save
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        internal bool Delete(WordingModel model) {
+            bool result = false;
+            using (var file = new FileOperator(this._filePath)) {
+                try {
+                    this.DataContext.Remove(model);
+                    result = this.Save();
                 } catch {
                 }
             }
