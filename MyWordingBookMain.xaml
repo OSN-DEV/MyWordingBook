@@ -1,0 +1,73 @@
+﻿<Window x:Class="MyWordingBook.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyWordingBook"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="400" Width="400" KeyDown="Window_KeyDown" MinWidth="200" MinHeight="200" Loaded="Window_Loaded">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Component/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <ListView Name="cWordingList" ItemsSource="{Binding}" SelectionMode="Single" Margin="0" MouseDoubleClick="WordingList_MouseDoubleClick">
+        <ListView.ItemContainerStyle >
+            <Style TargetType="ListViewItem" >
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ContentControl}">
+                            <Border BorderBrush="Transparent" BorderThickness="1" Background="{TemplateBinding Background}">
+                                <GridViewRowPresenter />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True" >
+                        <Setter Property="Background" Value="#FFE6E0E0" />
+                        <Setter Property="BorderBrush" Value="#FFE6E0E0" />
+                        <Setter Property="Foreground" Value="{StaticResource DefaultTextForeground}" />
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="True" >
+                        <Setter Property="Cursor" Value="Hand" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ListView.ItemContainerStyle>
+        <ListView.Resources>
+            <Style x:Key="{x:Type GridViewColumnHeader}" TargetType="{x:Type GridViewColumnHeader}">
+                <Setter Property="Background" Value="#D81B60"/>
+            </Style>
+        </ListView.Resources>
+        <ListView.View>
+            <GridView>
+                <GridViewColumn HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}" x:Name="cWord">
+                    <GridViewColumnHeader Content="Word" FontSize="{StaticResource DefaultFonSize}" Padding="5" Background="#D81B60"/>
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding Word}" VerticalAlignment="Center" Padding="5" FontSize="{StaticResource DefaultFonSize}" />
+                            </Grid>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+                <GridViewColumn HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}" x:Name="cNote">
+                    <GridViewColumnHeader Content="Note" FontSize="{StaticResource DefaultFonSize}"  Padding="5"  Background="#D81B60"/>
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding Note}" VerticalAlignment="Center" Padding="5" FontSize="{StaticResource DefaultFonSize}" />
+                            </Grid>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+            </GridView>
+        </ListView.View>
+    </ListView>
+</Window>
