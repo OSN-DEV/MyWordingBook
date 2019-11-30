@@ -1,7 +1,8 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:component="clr-namespace:MyWordingBook.Component">
 
     <!--Declaration-->
     <FontFamily x:Key="DefaultFontFamily" >Meiryo UI</FontFamily>
@@ -42,7 +43,7 @@
     </Style>
 
     <Style TargetType="TextBox" BasedOn="{StaticResource BaseTextBoxStyle}" />
-    
+    <Style TargetType="component:CustomTextBox" BasedOn="{StaticResource BaseTextBoxStyle}" />
     
     <Style TargetType="ListViewItem">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />

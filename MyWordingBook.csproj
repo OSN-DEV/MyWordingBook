@@ -64,13 +64,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Component\CustomTextBox.cs" />
+    <Compile Include="Component\Extensions.cs" />
     <Compile Include="Data\WordingModel.cs" />
     <Compile Include="Data\WordingRepository.cs" />
+    <Compile Include="EditWord.xaml.cs">
+      <DependentUpon>EditWord.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SearchWord.xaml.cs">
+      <DependentUpon>SearchWord.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Util\Constant.cs" />
     <Compile Include="Util\Wording.cs" />
     <Page Include="Component\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="EditWord.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MyWordingBookMain.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -85,6 +97,10 @@
       <DependentUpon>MyWordingBookMain.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SearchWord.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -16,6 +16,7 @@ using MyLib.Util;
 using MyLib.File;
 using MyWordingBook.Data;
 using MyWordingBook.Util;
+using MyWordingBook.Component;
 
 namespace MyWordingBook {
     /// <summary>
@@ -77,6 +78,17 @@ namespace MyWordingBook {
                         e.Handled = true;
                         this.SaveWindowInfo();
                         this.Close();
+                    }
+                    break;
+                // Show Edit dialog with new mode.
+                case Key.A:
+                    e.Handled = true;
+                    this.ShowEditDialog(null);
+                    break;
+                case Key.E:
+                    if (this.cWordingList.SelectedItem != null) {
+                        e.Handled = true;
+                        this.ShowEditDialog(this.cWordingList.SelectedItem as WordingModel);
                     }
                     break;
             }
@@ -168,9 +180,37 @@ namespace MyWordingBook {
         /// show error message
         /// </summary>
         /// <param name="message">message</param>
-
         private void ShowErrorMsg(string message) {
             MessageBox.Show(this, message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        /// <summary>
+        /// show edit dialog
+        /// </summary>
+        /// <param name="model"></param>
+        private void ShowEditDialog(WordingModel model) {
+            var dialog = new EditWord(this, model);
+            if (true != dialog.ShowDialog()) {
+                return;
+            }
+            if (null ==model) {
+                this._wording.Add(dialog.Model);
+            } else {
+                model.Word = dialog.Model.Word;
+                model.Note = dialog.Model.Note;
+            }
+        }
+
+        /// <summary>
+        /// Get selected item model
+        /// </summary>
+        /// <returns>selected item</returns>
+        private WordingModel GetSelectedModel() {
+            if (!(this.cWordingList.GetItemAt(Mouse.GetPosition(this.cWordingList))?.DataContext is WordingModel model)) {
+                return null;
+            } else {
+                return model;
+            }
         }
         #endregion
 

@@ -65,9 +65,18 @@ namespace MyWordingBook.Data {
                     result = true;
                 }
             } catch(Exception ex) {
+                Console.WriteLine(ex.Message);
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// add wording model
+        /// </summary>
+        /// <param name="model"></param>
+        internal void Add(WordingModel model) {
+            this.DataContext.Add(model);
         }
         #endregion
     }
