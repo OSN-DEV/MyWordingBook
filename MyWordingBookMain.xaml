@@ -14,7 +14,7 @@
         </ResourceDictionary>
     </Window.Resources>
     
-    <ListView Name="cWordingList" ItemsSource="{Binding}" SelectionMode="Single" Margin="0">
+    <ListView Name="cWordingList" ItemsSource="{Binding}" SelectionMode="Single" Margin="0" MouseDoubleClick="WordingList_MouseDoubleClick">
         <ListView.ItemContainerStyle >
             <Style TargetType="ListViewItem" >
                 <Setter Property="OverridesDefaultStyle" Value="True"/>

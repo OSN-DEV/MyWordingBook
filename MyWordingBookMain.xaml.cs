@@ -159,6 +159,19 @@ namespace MyWordingBook {
                     break;
             }
         }
+
+        /// <summary>
+        /// name list item double click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void WordingList_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            if (!(this.cWordingList.GetItemAt(Mouse.GetPosition(this.cWordingList))?.DataContext is WordingModel model)) {
+                return;
+            }
+            this.ShowEditDialog(model);
+        }
+
         #endregion
 
         #region Private Method
