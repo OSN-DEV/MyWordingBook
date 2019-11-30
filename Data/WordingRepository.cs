@@ -64,10 +64,30 @@ namespace MyWordingBook.Data {
                     }
                     result = true;
                 }
-            } catch(Exception ex) {
-                Console.WriteLine(ex.Message);
+            } catch {
             }
 
+            return result;
+        }
+
+        /// <summary>
+        /// save data file
+        /// </summary>
+        /// <returns>true:success, false:otherwise</returns>
+        internal bool Save() {
+            bool result = false;
+
+            using (var file = new FileOperator(this._filePath)) {
+                try {
+                    file.Delete();
+                    file.OpenForWrite();
+                    foreach (var model in this.DataContext) {
+                        file.WriteLine(model.Word + Separator + model.Note);
+                    }
+                    result = true;
+                } catch {
+                }
+            }
             return result;
         }
 

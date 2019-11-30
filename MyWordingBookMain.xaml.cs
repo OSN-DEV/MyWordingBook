@@ -199,6 +199,7 @@ namespace MyWordingBook {
                 model.Word = dialog.Model.Word;
                 model.Note = dialog.Model.Note;
             }
+            this._wording.Save();
         }
 
         /// <summary>
