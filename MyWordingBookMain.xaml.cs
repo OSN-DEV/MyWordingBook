@@ -27,6 +27,7 @@ namespace MyWordingBook {
         private AppRepository _settings;
         private WordingRepository _wording;
         private string _lastSearchWord = "";
+        private string _appVersion = "";
         #endregion
 
 
@@ -216,6 +217,9 @@ namespace MyWordingBook {
 
             //
             this.cWordingList.DataContext = this._wording.DataContext;
+            var fullname = typeof(App).Assembly.Location;
+            var info = System.Diagnostics.FileVersionInfo.GetVersionInfo(fullname);
+            this._appVersion = info.FileVersion;
         }
 
 
@@ -267,10 +271,10 @@ namespace MyWordingBook {
         /// set window title
         /// </summary>
         private void SetTitile(string mode = "") {
-            // update title
-            var fullname = typeof(App).Assembly.Location;
-            var info = System.Diagnostics.FileVersionInfo.GetVersionInfo(fullname);
-            this.Title = $"{mode}MyWordingBook({info.FileVersion}) -  {this._wording.FileName}";
+            if (this.TopMost) {
+
+            }
+            this.Title = $"{mode}MyWordingBook({this._appVersion}) -  {this._wording.FileName}";
         }
 
         /// <summary>
