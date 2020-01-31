@@ -271,7 +271,7 @@ namespace MyWordingBook {
         /// set window title
         /// </summary>
         private void SetTitile(string mode = "") {
-            if (this.TopMost) {
+            if (this.Topmost) {
 
             }
             this.Title = $"{mode}MyWordingBook({this._appVersion}) -  {this._wording.FileName}";
